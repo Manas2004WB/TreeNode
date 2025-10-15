@@ -1,0 +1,126 @@
+:root {
+  --bg: #ffffff;
+  --fg: #1A1A1A;
+  --accent: #009E4D; 
+  --accent-light: #00B65F;
+  --border: #009E4D;
+  --muted: #666666;
+  --bg-alt: #F0F4F3;
+  --row-h: 40px;
+  --indent: 20px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --radius: 8px;
+  --font: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  margin: 0;
+}
+
+.wrap {
+  padding: 24px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.toolbar .chip {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--accent);
+  background-color: #e6f5ec;
+  font-weight: 500;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+thead th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--bg);
+  background: var(--accent);
+}
+
+tbody tr {
+  height: var(--row-h);
+  border-bottom: 1px solid #ddd;
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: #e6f5ec;
+}
+
+td {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--fg);
+}
+
+.tree-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.indent-0 { padding-left: calc(0 * var(--indent)); }
+.indent-1 { padding-left: calc(1 * var(--indent)); }
+.indent-2 { padding-left: calc(2 * var(--indent)); }
+.indent-3 { padding-left: calc(3 * var(--indent)); }
+
+button.toggle {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: #e6f5ec;
+  color: var(--accent);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button.toggle[aria-expanded="true"]::before {
+  content: "▾";
+}
+
+button.toggle[aria-expanded="false"]::before {
+  content: "▸";
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--accent);
+  background-color: #e6f5ec;
+  font-weight: 500;
+}
