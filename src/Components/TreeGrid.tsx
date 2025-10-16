@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./TreeGrid.css";
-import { type TreeNode } from "./Types";
+import { type TreeNode,type ShotNode } from "./Types";
 
 
 interface TreeGridProps {
@@ -17,41 +17,47 @@ const TreeGrid: React.FC<TreeGridProps> = ({ data }) => {
     setExpanded(newSet);
   };
 
-  const renderRows = (nodes: TreeNode[], level = 0, parentId?: string) => {
-    return nodes.map((node) => {
-      const isExpanded = expanded.has(node.id);
-      const hasChildren = !!node.children?.length;
+  const renderRows = (nodes: TreeNode[] | ShotNode[], level = 0) => {
+  return nodes.map((node) => {
+    const isTreeNode = "type" in node; // distinguish TreeNode vs ShotNode
+    const hasChildren = isTreeNode && !!node.children?.length;
+    const isExpanded = isTreeNode && expanded.has(node.id);
 
-      return (
-        <React.Fragment key={node.id}>
-          <tr role="row">
-            <td role="gridcell">
-              <div className={`tree-cell indent-${level}`}>
-                {hasChildren && (
-                  <button
-                    className="toggle"
-                    aria-expanded={isExpanded}
-                    onClick={() => toggleExpand(node.id)}
-                    title={`Toggle ${node.name}`}
-                  />
-                )}
-                {!hasChildren && <button className="toggle" style={{ visibility: "hidden" }} />}
-                <strong>{node.name}</strong>
-                {node.createdAt && <span className="meta"> • {node.createdAt}</span>}
-              </div>
-            </td>
-            <td role="gridcell">{node.type}</td>
-            <td role="gridcell">{node.counts}</td>
-            <td role="gridcell">
-              <span className="status">{node.status}</span>
-            </td>
-          </tr>
+    return (
+      <React.Fragment key={node.id}>
+        <tr>
+          <td className={`tree-cell indent-${level}`}>
+            {hasChildren && (
+              <button
+                className="toggle"
+                aria-expanded={isExpanded}
+                onClick={() => toggleExpand(node.id)}
+              />
+            )}
+            {!hasChildren && <button className="toggle" style={{ visibility: "hidden" }} />}
+            {node.name}
+          </td>
+          {isTreeNode ? (
+            <>
+              <td>{node.type}</td>
+              <td>{node.counts || ""}</td>
+              <td>{node.status || ""}</td>
+            </>
+          ) : (
+            <>
+              <td>L: {node.L}</td>
+              <td>a: {node.a}</td>
+              <td>b: {node.b}</td>
+            </>
+          )}
+        </tr>
 
-          {hasChildren && isExpanded && renderRows(node.children!, level + 1, node.id)}
-        </React.Fragment>
-      );
-    });
-  };
+        {hasChildren && isExpanded && renderRows(node.children!, level + 1)}
+      </React.Fragment>
+    );
+  });
+};
+
 
   return (
     <div className="wrap">

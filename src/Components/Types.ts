@@ -1,9 +1,17 @@
-export interface TreeNode {
+export type ShotNode = {
   id: string;
   name: string;
-  type: "Batch" | "Bin" | "Box" | "Shot";
+  L: number;
+  a: number;
+  b: number;
+};
+
+export type TreeNode = {
+  id: string;
+  name: string;
+  type: string;
   counts?: string;
   status?: string;
   createdAt?: string;
-  children?: TreeNode[];
-}
+  children?: TreeNode[] | ShotNode[];
+};
